@@ -1,0 +1,23 @@
+version: '3'
+services:
+  host:
+    build: images/nginx
+    ports:
+      - 443:443
+  app:
+    build: images/php
+    volumes:
+      - ./app:/var/www/html
+    working_dir: /var/www/html/public
+  redis:
+    image: bitnami/redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data:/bitnami
+  database:
+    image: amazon/dynamodb-local
+    ports:
+      - 8000:8000
